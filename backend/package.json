@@ -1,9 +1,9 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
-    "start": "nodemon src/server.ts",
+    "start": "nodemon --exec \"node --loader ts-node/esm\" src/index.ts",
     "lint": "eslint . --ext .ts"
   },
   "type": "module",
@@ -13,6 +13,10 @@
   "description": "",
   "devDependencies": {
     "@eslint/js": "^9.39.0",
+    "@types/bcrypt": "^6.0.0",
+    "@types/cookie-parser": "^1.4.10",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/cors": "^2.8.19",
     "@types/express": "^5.0.5",
     "@types/node": "^24.10.0",
     "eslint": "^9.39.0",
@@ -23,7 +27,16 @@
     "typescript-eslint": "^8.46.2"
   },
   "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.2.3",
-    "express": "^5.1.0"
+    "envalid": "^8.1.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.20.0",
+    "mongoose": "^8.19.2",
+    "resend": "^6.4.0",
+    "zod": "^4.1.12"
   }
 }
