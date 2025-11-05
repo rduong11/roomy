@@ -1,5 +1,5 @@
 import "dotenv/config";
-import env from "../util/validateEnv.js";
+import env from "../utils/validateEnv.js";
 
 export const PORT = env.PORT;
 export const MONGO_URI = env.MONGO_URI;

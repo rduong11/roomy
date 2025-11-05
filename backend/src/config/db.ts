@@ -1,5 +1,5 @@
 import "dotenv/config";
-import env from "../util/validateEnv.js";
+import env from "../utils/validateEnv.js";
 import mongoose from "mongoose";
 
 const connectToDatabase = async () => {
