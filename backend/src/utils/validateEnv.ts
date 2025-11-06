@@ -6,4 +6,5 @@ export default cleanEnv(process.env, {
   APP_ORIGIN: str(),
   JWT_SECRET: str(),
   JWT_REFRESH_SECRET: str(),
+  NODE_ENV: str(),
 });
