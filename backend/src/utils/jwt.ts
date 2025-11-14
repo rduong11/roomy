@@ -1,4 +1,4 @@
-import type { SignOptions } from "jsonwebtoken";
+import type { SignOptions, VerifyOptions } from "jsonwebtoken";
 import type { SessionDocument } from "../models/session.model";
 import type { UserDocument } from "../models/user.model";
 import jwt from "jsonwebtoken";
@@ -18,7 +18,7 @@ type SignOptionsAndSecret = SignOptions & {
 };
 
 const defaults: SignOptions = {
-  audience: ["user"],
+  audience: ["user"] as [string, ...string[]],
 };
 
 const accessTokenSignOptions: SignOptionsAndSecret = {
@@ -37,4 +37,24 @@ export const signToken = (
 ) => {
   const { secret, ...signOpts } = options || accessTokenSignOptions;
   return jwt.sign(payload, secret, { ...defaults, ...signOpts });
+};
+
+export const verifyToken = <TPayload extends object = AccessTokenPayload>(
+  token: string,
+  options?: VerifyOptions & { secret?: string }
+) => {
+  const { secret = JWT_SECRET, ...verifyOpts } = options || {};
+  try {
+    const payload = jwt.verify(token, secret, {
+      ...defaults,
+      ...verifyOpts,
+    } as VerifyOptions) as unknown as TPayload;
+
+    return { payload };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    return {
+      error: error.message,
+    };
+  }
 };
