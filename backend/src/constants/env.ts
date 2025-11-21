@@ -8,3 +8,4 @@ export const JWT_SECRET = env.JWT_SECRET;
 export const JWT_REFRESH_SECRET = env.JWT_REFRESH_SECRET;
 export const NODE_ENV = env.NODE_ENV;
 export const RESEND_API_KEY = env.RESEND_API_KEY;
+export const EMAIL_SENDER = env.EMAIL_SENDER;
