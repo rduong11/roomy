@@ -48,7 +48,7 @@ export const verifyToken = <TPayload extends object = AccessTokenPayload>(
     const payload = jwt.verify(token, secret, {
       ...defaults,
       ...verifyOpts,
-    } as VerifyOptions) as unknown as TPayload;
+    } as VerifyOptions) as TPayload;
 
     return { payload };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
