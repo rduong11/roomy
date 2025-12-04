@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import { SessionDocument } from "../models/session.model";
+import { UserDocument } from "../models/user.model";
 
 declare global {
   namespace Express {
     interface Request {
-      userId: mongoose.Types.ObjectId | undefined;
-      sessionId: mongoose.Types.ObjectId | undefined;
+      userId: UserDocument["_id"];
+      sessionId: SessionDocument["_id"];
     }
   }
 }
-export {};

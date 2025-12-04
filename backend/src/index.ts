@@ -6,6 +6,7 @@ import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/errorHandler.js";
 import { OK } from "./constants/http.js";
 import authRoutes from "./routes/auth.route.js";
+import authenticate from "./middleware/authenticate.js";
 
 const app = express();
 
@@ -25,7 +26,11 @@ app.get("/", (_, res) => {
   });
 });
 
+// auth routes
 app.use("/auth", authRoutes);
+
+// protected routes
+app.use("/user", authenticate, userRoutes);
 
 app.use(errorHandler);
 app.listen(PORT, async () => {
