@@ -1,9 +1,23 @@
-import { useState } from "react";
+// import { useState } from "react";
+
+import { Route, Routes } from "react-router-dom";
+import Login from "./pages/Login";
+
+const Home = () => {
+  return (
+    <div>
+      <button className="btn btn-primary">test</button>
+    </div>
+  );
+};
 
 function App() {
   return (
     <>
-      <h2 className="text-red-500">Hello world</h2>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
     </>
   );
 }
