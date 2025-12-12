@@ -1,10 +1,23 @@
+import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../lib/api";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  // const [disableButton, setDisableButton] = useState<boolean>(true);
+  const navigate = useNavigate();
+
+  const {
+    mutate: signIn,
+    isPending,
+    isError,
+  } = useMutation({
+    mutationFn: login,
+    onSuccess: () => {
+      navigate("/", { replace: true });
+    },
+  });
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -13,6 +26,7 @@ const Login = () => {
           Welcome back productivity champion!
         </h1>
         <p className="text-center">Enter your account details to sign in.</p>
+        {isError && <p>Invalid password or email</p>}
         <label className="label">Email</label>
         <input
           id="email"
@@ -31,6 +45,7 @@ const Login = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && signIn({ email, password })}
         />
         <Link
           to={"/password/forgot"}
@@ -42,6 +57,10 @@ const Login = () => {
         <button
           className="btn btn-soft btn-primary mb-2"
           disabled={!email || password.length < 6}
+          onClick={() => {
+            signIn({ email, password });
+          }}
+          // pending implementation
         >
           Sign in
         </button>
