@@ -1,12 +1,11 @@
-import type { AxiosResponse } from "axios";
 import API from "../config/apiClient";
 
-type LoginData = {
+export type LoginData = {
   email: string;
   password: string;
 };
 
-type LoginResponse = {
+export type LoginResponse = {
   message: string;
   user: {
     id: string;
@@ -14,8 +13,28 @@ type LoginResponse = {
   };
 };
 
-export const login = async (
-  data: LoginData
-): Promise<AxiosResponse<LoginResponse>> => {
-  return API.post("/auth/login", data);
+export type RegisterData = {
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
+export type RegisterResponse = {
+  message: string;
+  user: {
+    id: string;
+    email: string;
+  };
+};
+
+export const login = async (data: LoginData): Promise<LoginResponse> => {
+  const response = await API.post<LoginResponse>("/auth/login", data);
+  return response.data;
+};
+
+export const register = async (
+  data: RegisterData
+): Promise<RegisterResponse> => {
+  const response = await API.post<RegisterResponse>("/auth/register", data);
+  return response.data;
 };
