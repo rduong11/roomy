@@ -53,8 +53,9 @@ const Register = () => {
           onChange={(e) => setPassword(e.target.value)}
           disabled={isPending}
         />
-        <p>Must be at least 6 characters in length.</p>
-        {/* need to style ^ */}
+        <p className="text-[10px] text-center">
+          - Must be at least 6 characters in length.
+        </p>
         <label className="label">Confirm Password</label>
         <input
           id="confirmPassword"
