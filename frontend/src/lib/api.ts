@@ -38,3 +38,7 @@ export const register = async (
   const response = await API.post<RegisterResponse>("/auth/register", data);
   return response.data;
 };
+
+export const verifyEmail = async (verificationCode: string) => {
+  return API.get(`/auth/email/verify/${verificationCode}`);
+};
