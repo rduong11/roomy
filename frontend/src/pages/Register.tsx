@@ -10,7 +10,6 @@ const Register = () => {
 
   const {
     mutate: createAccount,
-
     isPending,
     isError,
     error,
