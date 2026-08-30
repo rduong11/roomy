@@ -33,7 +33,7 @@ export const login = async (data: LoginData): Promise<LoginResponse> => {
 };
 
 export const register = async (
-  data: RegisterData
+  data: RegisterData,
 ): Promise<RegisterResponse> => {
   const response = await API.post<RegisterResponse>("/auth/register", data);
   return response.data;
@@ -45,4 +45,11 @@ export const verifyEmail = async (verificationCode: string) => {
 
 export const sendPasswordResetEmail = async (email: string) => {
   return API.post("/auth/password/forgot", { email });
+};
+
+export const resetPassword = async (data: {
+  password: string;
+  verificationCode: string;
+}) => {
+  return API.post("/auth/password/reset", data);
 };

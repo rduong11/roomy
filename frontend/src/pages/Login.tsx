@@ -1,23 +1,33 @@
-import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { login } from "../lib/api";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../config/authContext";
 
 const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+  const { login } = useAuth();
 
-  const {
-    mutate: signIn,
-    isPending,
-    isError,
-  } = useMutation({
-    mutationFn: login,
-    onSuccess: () => {
-      navigate("/", { replace: true });
-    },
-  });
+  const from = location.state?.from?.pathname || "/";
+
+  const handleSubmit = async () => {
+    if (!email || password.length < 6) return;
+
+    setIsLoading(true);
+    setError(null);
+
+    try {
+      await login(email, password);
+      navigate(from, { replace: true });
+    } catch (err: any) {
+      setError(err.message || "Login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center">
@@ -26,11 +36,7 @@ const Login = () => {
           Welcome back, productivity champion!
         </h1>
         <p className="text-center">Enter your account details to sign in.</p>
-        {isError && (
-          <p className="text-error text-center m-2">
-            Invalid password or email
-          </p>
-        )}
+        {error && <p className="text-error text-center m-2">{error}</p>}
         <label className="label">Email</label>
         <input
           id="email"
@@ -39,7 +45,7 @@ const Login = () => {
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          disabled={isPending}
+          disabled={isLoading}
         />
 
         <label className="label">Password</label>
@@ -50,8 +56,8 @@ const Login = () => {
           placeholder="Password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && signIn({ email, password })}
-          disabled={isPending}
+          onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+          disabled={isLoading}
         />
         <Link
           to={"/password/forgot"}
@@ -62,12 +68,10 @@ const Login = () => {
 
         <button
           className="btn btn-soft btn-primary mb-2"
-          disabled={!email || password.length < 6 || isPending}
-          onClick={() => {
-            signIn({ email, password });
-          }}
+          disabled={!email || password.length < 6 || isLoading}
+          onClick={handleSubmit}
         >
-          {isPending ? (
+          {isLoading ? (
             <>
               <span className="loading loading-spinner loading-sm"></span>
               Signing in...
